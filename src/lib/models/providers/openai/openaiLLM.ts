@@ -264,7 +264,8 @@ class OpenAILLM extends BaseLLM<OpenAIConfig> {
 
     const stream = this.openAIClient.responses.stream({
       model: this.config.model,
-      input: input.messages,
+      // Only text messages reach streamObject; image parts are used solely by streamText.
+      input: input.messages as OpenAI.Responses.ResponseInput,
       temperature:
         input.options?.temperature ?? this.config.options?.temperature ?? 1.0,
       top_p: input.options?.topP ?? this.config.options?.topP,

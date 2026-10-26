@@ -42,6 +42,7 @@ const bodySchema = z.object({
     .optional()
     .default([]),
   files: z.array(z.string()).optional().default([]),
+  images: z.array(z.string().startsWith('data:image/')).optional().default([]),
   chatModel: chatModelSchema,
   embeddingModel: embeddingModelSchema,
   systemInstructions: z.string().nullable().optional().default(''),
@@ -214,6 +215,7 @@ export const POST = async (req: Request) => {
       .searchAsync(session, {
         chatHistory: history,
         followUp: message.content,
+        images: body.images,
         chatId: body.message.chatId,
         messageId: body.message.messageId,
         config: {
